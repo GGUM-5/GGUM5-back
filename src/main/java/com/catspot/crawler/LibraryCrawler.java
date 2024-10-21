@@ -5,32 +5,50 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LibraryCrawler {
     private static final String baseUrl = "http://203.229.203.240/8080";
     private static final String tableUrl = "/Domian5_jythh.asp";
-    private static HashMap<String, StudyPlace> data = new HashMap<>();
+    private static final String seatUrl = "/roomview5.asp?room_no=";
 
-    public static HashMap<String, StudyPlace> getData() {
-        data = new HashMap<>();
+    public static List<StudyPlace> getData() {
+        List<StudyPlace> data = new ArrayList<>();
         try {
-            Document document = Jsoup.connect(baseUrl + tableUrl).get();
-            Elements rows = document.select("tbody tr");
+            Document table = Jsoup.connect(baseUrl + tableUrl).get();
+            Elements rows = table.select("tbody tr");
 
             for (int i = 0; i < rows.size(); i ++) {
                 Element row = rows.get(i);
-                String section = row.select("a").text();
-                String url = baseUrl + "/" + row.select("a").attr("href");
-                Integer freeSeat = Integer.parseInt(row.select("font").get(2).text());
-                StudyPlace library = new StudyPlace(url, freeSeat);
-                data.put(section, library);
+                String name = row.select("a").text();
+                String url = baseUrl + seatUrl + (i + 1);
+
+                Document seat = Jsoup.connect(url).get();
+                Elements seatStatus = seat.select("td b");
+
+                Integer allSeats = Integer.parseInt(seatStatus.get(3).text());
+                Integer useSeats = Integer.parseInt(seatStatus.get(5).text());
+                Integer restSeats = Integer.parseInt(seatStatus.get(7).text());
+
+                StudyPlace studyPlace = StudyPlace.builder()
+                        .placeIdx(i)
+                        .placeName(name)
+                        .url(url)
+                        .allSeats(allSeats)
+                        .useSeats(useSeats)
+                        .restSeats(restSeats)
+                        .build();
+
+                data.add(studyPlace);
             }
 
             if (data.isEmpty()) throw new IOException();
             System.out.println("크롤링 성공 : 데이터 개수 " + data.size());
         } catch (IOException e) {
             System.out.println("에러 발생");
+            e.printStackTrace();
         }
         return data;
     }

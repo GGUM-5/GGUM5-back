@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.List;
 
-public class LibraryCrawlerTest {
+class LibraryCrawlerTest {
     @Test
     void 크롤링_페이지_정상동작() {
         // when

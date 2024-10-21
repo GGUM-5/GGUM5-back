@@ -3,7 +3,7 @@ package com.catspot.crawler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class StudyPlaceTest {
+class StudyPlaceTest {
     @Test
     void 열람실_엔티티_생성() {
         StudyPlace studyPlace = StudyPlace.builder()

@@ -14,7 +14,7 @@ class StudyPlaceRepositoryTest {
     @Test
     void 저장_후_인덱스를_통한_조회() {
         StudyPlace studyPlace = StudyPlace.builder()
-                .placeIdx(1)
+                .placeIdx(1L)
                 .placeName("1")
                 .url("url")
                 .allSeats(10)

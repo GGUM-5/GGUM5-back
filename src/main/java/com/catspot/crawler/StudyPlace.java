@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 public class StudyPlace {
     @Id
-    private Integer placeIdx;
+    private Long placeIdx;
     private String placeName;
     private String url;
     private Integer allSeats;

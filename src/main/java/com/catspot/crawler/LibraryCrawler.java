@@ -33,7 +33,7 @@ public class LibraryCrawler {
                 Integer restSeats = Integer.parseInt(seatStatus.get(7).text());
 
                 StudyPlace studyPlace = StudyPlace.builder()
-                        .placeIdx(i)
+                        .placeIdx((long) i)
                         .placeName(name)
                         .url(url)
                         .allSeats(allSeats)
@@ -45,9 +45,7 @@ public class LibraryCrawler {
             }
 
             if (data.isEmpty()) throw new IOException();
-            System.out.println("크롤링 성공 : 데이터 개수 " + data.size());
         } catch (IOException e) {
-            System.out.println("에러 발생");
             e.printStackTrace();
         }
         return data;

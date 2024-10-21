@@ -7,7 +7,7 @@ class StudyPlaceTest {
     @Test
     void 열람실_엔티티_생성() {
         StudyPlace studyPlace = StudyPlace.builder()
-                .placeIdx(1)
+                .placeIdx(1L)
                 .placeName("1")
                 .url("url")
                 .allSeats(10)

@@ -1,18 +1,27 @@
 package com.catspot.crawler;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.*;
 
+@Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Builder
 public class StudyPlace {
-    private final String link;
-    private final Integer freeSeats;
+    @Id
+    private Integer placeIdx;
+    private String placeName;
+    private String url;
+    private Integer allSeats;
+    private Integer useSeats;
+    private Integer restSeats;
 
     @Override
     public String toString() {
-        return "link: " + link + ", freeSeats: " + freeSeats;
+        return "placeIdx=" + placeIdx + ", placeName=" + placeName + ", url=" + url +
+                ", allSeats=" + allSeats + ", useSeats=" + useSeats + ", restSeats=" + restSeats;
     }
 }

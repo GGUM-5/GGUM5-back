@@ -50,41 +50,12 @@ class LibraryCrawlerTest {
 
     private Document getTestDocu() {
         String html = """
-            <html>
-                <tbody>
-                <table>
-                    <tr>
-                        <td>
-                            <a>test</a>
-                        </td>
-                        <td>
-                            <b>1</b>
-                        </td>
-                        <td>
-                            <b>1</b>
-                        </td>
-                        <td>
-                            <b>1</b>
-                        </td>
-                        <td>
-                            <b>1</b>
-                        </td>
-                        <td>
-                            <b>1</b>
-                        </td>
-                        <td>
-                            <b>1</b>
-                        </td>
-                        <td>
-                            <b>1</b>
-                        </td>
-                        <td>
-                            <b>1</b>
-                        </td>
-                    </tr>
-                    </table>
-                </tbody>
-            </html>
+            <item>
+                <strRoomNo>1</strRoomNo>
+                <strTotalSeat>1</strTotalSeat>
+                <strUseSeat>1</strUseSeat>
+                <strRemainSeat>1</strRemainSeat>
+            </item>
         """;
 
         return Jsoup.parse(html);

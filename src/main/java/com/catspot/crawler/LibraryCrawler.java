@@ -17,27 +17,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class LibraryCrawler {
     private final JsoupHelper jsoupHelper;
-    private static final String baseUrl = "http://203.229.203.240/8080";
-    private static final String tableUrl = "/Domian5_jythh.asp";
-    private static final String seatUrl = "/roomview5.asp?room_no=";
+    private static final String baseUrl = "https://mlibrary.catholic.ac.kr/mobile/PA";
+    private static final String tableUrl = "/roomStatusListXML.php";
+    private static final String seatUrl = "/seatMap.php?roomNo=";
 
     public List<StudyPlace> getData() {
         List<StudyPlace> data = new ArrayList<>();
         try {
             Document table = jsoupHelper.getDocument(baseUrl + tableUrl);
-            Elements rows = table.select("tbody tr");
+            Elements rows = table.select("item");
 
             for (int i = 0; i < rows.size(); i ++) {
                 Element row = rows.get(i);
-                String name = row.select("a").text();
-                String url = baseUrl + seatUrl + (i + 1);
+                String name = row.select("strRoomNm").text();
+                String url = baseUrl + seatUrl + row.select("strRoomNo").text();
 
-                Document seat = jsoupHelper.getDocument(url);
-                Elements seatStatus = seat.select("td b");
-
-                Integer allSeats = Integer.parseInt(seatStatus.get(3).text());
-                Integer useSeats = Integer.parseInt(seatStatus.get(5).text());
-                Integer restSeats = Integer.parseInt(seatStatus.get(7).text());
+                Integer allSeats = Integer.parseInt(row.select("strTotalSeat").text());
+                Integer useSeats = Integer.parseInt(row.select("strUseSeat").text());
+                Integer restSeats = Integer.parseInt(row.select("strRemainSeat").text());
 
                 StudyPlace studyPlace = StudyPlace.builder()
                         .placeIdx((long) i)
@@ -50,8 +47,6 @@ public class LibraryCrawler {
 
                 data.add(studyPlace);
             }
-
-
         } catch (Exception e) {
             log.error("크롤링에 실패했습니다.");
             data = new ArrayList<>();
